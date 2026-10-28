@@ -1,55 +1,148 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-# 1. Configuración inicial de la página
 st.set_page_config(
-    page_title="Portafolio Interfaces Multimodales | Juan Pablo Gutiérrez",
-    page_icon="🚀",
-    layout="centered"
+    page_title="Portafolio Interactivo | Juan Pablo Gutiérrez",
+    page_icon="👾",
+    layout="wide" # Importante para dar más espacio a la exploración
 )
 
-# 2. Encabezado principal del portafolio
-st.title("🚀 Portafolio: Interfaces Multimodales")
-st.markdown("### Juan Pablo Gutiérrez Quintero")
-st.markdown("**Diseño Interactivo - Universidad EAFIT**")
-st.write("---")
-st.write("Bienvenido a mi portafolio del curso. Aquí encontrarás un recopilatorio de las aplicaciones desarrolladas en Streamlit a lo largo del semestre, explorando diferentes modalidades de interacción como visión computacional, voz, y protocolos de comunicación IoT.")
+st.title("👾 Portafolio: Estación Multimodal")
+st.markdown("**Juan Pablo Gutiérrez Quintero** | Explora la estación para descubrir los proyectos.")
 
-# 3. Creación de pestañas para organizar las clases
-tab11, tab12, tab13, tab14 = st.tabs(["Clase 11", "Clase 12", "Clase 13", "Clase 14"])
+# Aquí inyectamos todo el HTML, CSS y JavaScript
+# Este es un "mundo" de 2000x2000 píxeles dentro de un contenedor navegable
+interactive_world_html = """
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    /* El contenedor que el usuario ve (la ventana) */
+    .viewport {
+        width: 100%;
+        height: 600px;
+        overflow: auto; /* Permite hacer scroll libremente */
+        border: 2px solid #444;
+        background-color: #111;
+        position: relative;
+        cursor: grab;
+    }
+    
+    /* El mundo gigante adentro (Floor 796 style) */
+    .world {
+        width: 2000px;
+        height: 1500px;
+        /* Aquí deberías cargar tu imagen pixel art de fondo */
+        /* background-image: url('URL_DE_TU_PIXEL_ART_GIGANTE.png'); */
+        background-color: #222;
+        background-size: cover;
+        position: relative;
+        /* Un patrón de cuadrícula temporal para dar idea de espacio */
+        background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px);
+        background-size: 50px 50px;
+    }
 
-# Contenido Clase 11
-with tab11:
-    st.header("📚 Clase 11")
-    st.write("Exploración de interfaces para procesamiento de documentos.")
-    st.link_button("💬 Chat PDF - Versión 1", "https://chatpdf-clase-11-jy87wpkuwbydsszmx37mtk.streamlit.app/", use_container_width=True)
-    st.link_button("💬 Chat PDF - Versión 2", "https://chatpdf-clase-11-asnq94pjetrhqqduup3sqb.streamlit.app/", use_container_width=True)
+    /* Las "Habitaciones" o "Personajes" interactivos */
+    .room {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px dashed #00ff00;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #00ff00;
+        font-family: monospace;
+        font-size: 14px;
+        text-align: center;
+        transition: 0.3s;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
-# Contenido Clase 12
-with tab12:
-    st.header("🎨 Clase 12")
-    st.write("Aplicaciones de reconocimiento y tableros de dibujo interactivos.")
-    st.link_button("🔢 Predicción MNIST", "https://mnistpred-clase12-tnokntyr9x5j5ebbsoqhoa.streamlit.app/", use_container_width=True)
-    st.link_button("✏️ Tablero Interactivo", "https://tablero-clase-12-92e6sliunqhxkuy4vgwgty.streamlit.app/", use_container_width=True)
-    st.link_button("👁️ Reconocimiento de Dibujo (DrawRecog)", "https://drawrecog-clase-12-4cfuntf48mmhrlz97vpydx.streamlit.app/", use_container_width=True)
-    st.link_button("🛠️ Taller Clase 12", "https://clase12-taller-kszzd7oqhvpdavw5vkyfjm.streamlit.app/", use_container_width=True)
+    .room:hover {
+        background-color: rgba(0, 255, 0, 0.3);
+        transform: scale(1.1);
+        z-index: 10;
+        box-shadow: 0 0 15px #00ff00;
+    }
 
-# Contenido Clase 13
-with tab13:
-    st.header("📡 Clase 13")
-    st.write("Integración de comunicación MQTT y control por voz (gTTS/Reconocimiento).")
-    st.link_button("📥 Recepción MQTT", "https://recepmqtt-clase13-m99szh2udgeecr46cebwu3.streamlit.app/", use_container_width=True)
-    st.link_button("📤 Envío MQTT", "https://sendcmqtt-clase13-ydyfbaz55vqm73mjnny59x.streamlit.app/", use_container_width=True)
-    st.link_button("🎙️ Control por Voz", "https://ctrlvoice---clase-13-w7zlxchbtedjdurb2hnck2.streamlit.app/", use_container_width=True)
+    /* Posicionamiento de las clases en el mapa gigante */
+    #clase11 { top: 200px; left: 300px; }
+    #clase12 { top: 500px; left: 800px; }
+    #clase13 { top: 900px; left: 400px; }
+    #clase14 { top: 700px; left: 1400px; }
+</style>
+</head>
+<body>
 
-# Contenido Clase 14
-with tab14:
-    st.header("🧠 Clase 14")
-    st.write("Sistemas multimodales avanzados combinando visión, voz y gestos.")
-    st.link_button("🗣️ Control por Voz (Multipage)", "https://clase-14-mqtt-multipage-vu46kvdslwh7eetd4vxfgr.streamlit.app/Control_por_voz", use_container_width=True)
-    st.link_button("⚙️ Clase 14 - App Principal", "https://clase14-ciuzhl6lg5ykxmoeqhlrdg.streamlit.app/", use_container_width=True)
-    st.link_button("📷 Combinación con Visión", "https://clase14-visioncomb-4kibapppgcfjnvmgmxuyew6.streamlit.app/", use_container_width=True)
-    st.link_button("🖐️ Cerradura por Gestos", "https://cerraduragestos-clase14-iuzlc5yhaapha4p9zfphnm.streamlit.app/", use_container_width=True)
+<div class="viewport" id="viewport">
+    <div class="world">
+        <!-- Zonas interactivas -->
+        <a href="https://chatpdf-clase-11-jy87wpkuwbydsszmx37mtk.streamlit.app/" target="_blank" class="room" id="clase11">
+            🤖 Clase 11<br>Chat PDF
+        </a>
+        
+        <a href="https://tablero-clase-12-92e6sliunqhxkuy4vgwgty.streamlit.app/" target="_blank" class="room" id="clase12">
+            🎨 Clase 12<br>Tablero / MNIST
+        </a>
+        
+        <a href="https://ctrlvoice---clase-13-w7zlxchbtedjdurb2hnck2.streamlit.app/" target="_blank" class="room" id="clase13">
+            🎙️ Clase 13<br>Control por Voz
+        </a>
+        
+        <a href="https://clase14-ciuzhl6lg5ykxmoeqhlrdg.streamlit.app/" target="_blank" class="room" id="clase14">
+            🧠 Clase 14<br>Sistema Multimodal
+        </a>
+        
+        <!-- Puedes añadir pequeños "easter eggs" que no hagan nada pero den vida -->
+        <div style="position: absolute; top: 1000px; left: 1200px; color: white; font-family: monospace;">
+            👾 [Animación de un perrito caminando por aquí]
+        </div>
+    </div>
+</div>
 
-# Footer
-st.write("---")
-st.caption("Repositorio alojado en GitHub y desplegado en Streamlit Community Cloud.")
+<script>
+    // Pequeño script para permitir arrastrar (pan) el mapa con el mouse 
+    // en lugar de usar solo las barras de scroll
+    const viewport = document.getElementById('viewport');
+    let isDown = false;
+    let startX, startY, scrollLeft, scrollTop;
+
+    viewport.addEventListener('mousedown', (e) => {
+        isDown = true;
+        viewport.style.cursor = 'grabbing';
+        startX = e.pageX - viewport.offsetLeft;
+        startY = e.pageY - viewport.offsetTop;
+        scrollLeft = viewport.scrollLeft;
+        scrollTop = viewport.scrollTop;
+    });
+    viewport.addEventListener('mouseleave', () => {
+        isDown = false;
+        viewport.style.cursor = 'grab';
+    });
+    viewport.addEventListener('mouseup', () => {
+        isDown = false;
+        viewport.style.cursor = 'grab';
+    });
+    viewport.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - viewport.offsetLeft;
+        const y = e.pageY - viewport.offsetTop;
+        const walkX = (x - startX) * 2; 
+        const walkY = (y - startY) * 2;
+        viewport.scrollLeft = scrollLeft - walkX;
+        viewport.scrollTop = scrollTop - walkY;
+    });
+</script>
+
+</body>
+</html>
+"""
+
+# Renderizar el componente HTML en Streamlit
+components.html(interactive_world_html, height=620)
+
+st.caption("Usa el mouse para arrastrar y explorar el mapa. Haz clic en las zonas iluminadas para ir a los proyectos.")
